@@ -899,7 +899,9 @@ while simulate:
         if initial_node in desired_nodes:
             desired_nodes.remove(initial_node)
             if len(desired_nodes) == 0:
-                exit(1)
+                writer.writerow([alpha,crew_alien_grid_size,alien_threshold,no_of_moves,idle_time,"crews Found",2])
+                f.close()
+                sys.exit(1)
         visualizeGrid(initial_node, aliens)
         time.sleep(0.2)
 
@@ -927,8 +929,9 @@ while simulate:
             pair_probs = update_no_probs(initial_node, pair_probs)
         aliens = new_alien_pos(aliens)
         if initial_node in aliens:
-            # Alien enters bot occupied cell
-            exit(1)
+            writer.writerow([alpha,crew_alien_grid_size,no_of_moves,idle_time,"Alien Found", 2-len(desired_nodes) ])
+            f.close()
+            sys.exit(1)
         
         crew_found_inside_detection_grid = find_crew_found_inside_detection_grid(grid, aliens, initial_node[0],
                                                                                  initial_node[1])
@@ -987,4 +990,8 @@ while simulate:
             if i[0] == initial_node or i[1] == initial_node:
                 open_pairs.remove(i)
         calc_distances(initial_node)
+    if  len(desired_nodes)==0  :
+        writer.writerow([alpha,crew_alien_grid_size,no_of_moves,idle_time,"Crews Found" , 2])
+        f.close()
+        sys.exit(1)
 pygame.quit()
