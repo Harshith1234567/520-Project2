@@ -885,7 +885,7 @@ for p in range(size):
 
 pair_probs = np.array(pair_probs)
 pair_probs = pair_probs / total
-
+idle_time=0
 no_of_moves=0
 moves = 0
 prev_node = initial_node
@@ -895,11 +895,13 @@ ans = 0
 while simulate:
     flag = 0
     while len(desired_nodes) > 0:
+        flag=0
+        no_of_moves+=1
         visualizeGrid(initial_node, aliens)
         if initial_node in desired_nodes:
             desired_nodes.remove(initial_node)
             if len(desired_nodes) == 0:
-                writer.writerow([alpha,crew_alien_grid_size,alien_threshold,no_of_moves,idle_time,"crews Found",2])
+                writer.writerow([alpha,crew_alien_grid_size,no_of_moves,idle_time,"crews Found",2])
                 f.close()
                 sys.exit(1)
         visualizeGrid(initial_node, aliens)
@@ -946,6 +948,7 @@ while simulate:
             initial_node = getBestPossibleNeighbour(initial_node, blocked_nodes, crew_alien_grid)
             prev_node = initial_node
             #aliens = new_alien_pos(aliens)
+            idle_time+=1
             flag = 1
         if flag == 1:
             break
